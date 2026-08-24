@@ -3,4 +3,4 @@
 
 [View the code](zodiacPotassiumLN.py)
 
-[View the running code screenshot](
+[View the running code screenshot](Screenshot.png)
