@@ -1,0 +1,112 @@
+class AssignmentSubmission:
+
+  def __init__(self, student_name: str, student_id: str, assignment_title: str, due_date: str):
+    self.student_name = student_name
+    self.student_id = student_id
+    self._assignment_title = assignment_title
+    self._due_date = due_date
+    self.__is_submitted = False
+    self.__submitted_file = []
+    self.__score: float = -1.0 
+
+  def __validate_grade(self, score: float) -> bool:
+    return 0.0 <= score <= 100.0
+
+  def __check_submission_status(self) -> bool:
+    self.__is_submitted = len(self.__submitted_file) > 0
+    return self.__is_submitted
+
+  def __is_duplicate(self, filename: str) -> bool:
+    return filename in self.__submitted_file
+
+  def add_file(self, filename: str):
+    if self.__is_duplicate(filename):
+      print(f"[Warning] '{filename}' is already attached!")
+    else:
+      self.__submitted_file.append(filename)
+      self.__check_submission_status()
+      print(f"[Success] {self.student_name} attached: '{filename}' Total Files: {len(self.__submitted_file)}")
+
+  def remove_file(self, filename: str):
+    if filename in self.__submitted_file:
+      self.__submitted_file.remove(filename)
+      self.__check_submission_status()
+      self.assign_grade == self.assign_grade
+      print(f"[Warning] {self.student_name} Cannot remove files. Assignment already graded.")
+    elif print(f"[Success] {self.student_name} removed file: '{filename}' Total Files: {len(self.__submitted_file)}"):
+      self.__submitted_file.remove(filename)
+      self.__check_submission_status()
+    else:
+      print(f"[Error] {self.student_name}: File '{filename}' not found.")
+
+  def assign_grade(self, score: float):
+    if not self.__is_submitted:
+      print(f"[Error] No files submitted for {self.student_name}.")
+    elif self.__validate_grade(score):
+      self.__score = score
+      print(f"[Success] Grade {score} officially assigned to {self.student_name}.")
+    else:
+      print(f"[Error] Invalid score. Must be between 0.0 and 100.0.")
+
+  def get_grade(self) -> str:
+    if self.__score == -1.0:
+      return "Ungraded"
+    return f"{self.__score}/100"
+
+  def view_files(self) -> str:
+    if not self.__submitted_file:
+      return "No files uploaded."
+    return ", ".join(self.__submitted_file)
+
+  def get_status_report(self) -> str:
+    return (
+        f"ID: {self.student_id} |"
+        f"Name: {self.student_name} |"
+        f"Status: {len(self.__submitted_file)} ({self.view_files()}) |"
+        f"Grade: {self.get_grade()}\n"
+    )
+
+print(f"--- INITIALIZING DROPBOX FOR STUDENTS ---")
+student1 = AssignmentSubmission(student_name = "Alex Gonzaga", student_id = "pshs-1090-x", assignment_title = "CS-101", due_date = "2026-10-15")
+student2 = AssignmentSubmission(student_name = "Adelle", student_id = "pshs-1920-x", assignment_title = "CS-103", due_date = "2026-10-01")
+student3 = AssignmentSubmission(student_name = "Juan Dela Cruz", student_id = "pshs-1033-x", assignment_title = " CS-101", due_date = "2026-10-01")
+student4 = AssignmentSubmission(student_name = "Maria Santos", student_id = "pshs-1044-x", assignment_title = "CS-101", due_date = "2026-10-01")
+student5 = AssignmentSubmission(student_name = "Jose Reyes", student_id = "pshs-1055-x", assignment_title = "CS-101", due_date = "2026-10-01")
+
+print("--- TEST SCENARIO 1: Multiple Files via List ---")
+student1.add_file("main.py")
+student1.add_file("report.pdf")
+student1.assign_grade(95)
+print(f"Alex's Files: {student1.view_files()}\n")
+
+print("--- TEST SCENARIO 2: Removing Files from List ---")
+student2.add_file("wrong_homework.docx")
+student2.remove_file("wrong_homework.docx")
+student2.add_file("correct_project.py")
+student2.assign_grade(88)
+print(f"Adelle's Files: {student2.view_files()}\n")
+
+print(" --- TEST SCENARIO 3: Preventing Duplicate Files ---")
+student3.add_file("script.py")
+student3.add_file("script.py")
+print(f"Juan's Files: {student3.view_files()}\n")
+
+print(" --- TEST SCENARIO 4: Removing file after being graded ---")
+student4.add_file("exam_answers.pdf")
+student4.assign_grade(75)
+student4.remove_file("exam_answers.pdf")
+print()
+
+
+print(" --- TEST SCENARIO 5: Empty List Handling ---")
+student5.add_file("draft.txt")
+student5.remove_file("draft.txt")
+student5.assign_grade(100)
+print()
+
+print("--- FINAL SYSTEM REPORTS ---")
+print(student1.get_status_report())
+print(student2.get_status_report())
+print(student3.get_status_report())
+print(student4.get_status_report())
+print(student5.get_status_report())
