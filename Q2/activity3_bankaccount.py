@@ -4,12 +4,10 @@ class BankAccount:
         self.__balance = 0.0
         self.set_account_number(acct_no)
         self.set_balance(starting_balance)
- 
-    # private helper: only used inside the class
+        
     def __is_valid_amount(self, amount):
         return isinstance(amount, (int, float)) and amount >= 0
  
-    # ---------- public setters ----------
     def set_account_number(self, new_number):
         if isinstance(new_number, int) and new_number > 0:
             self.__acct_no = new_number
@@ -22,7 +20,6 @@ class BankAccount:
         else:
             print("Warning: the balance must not be a negative number.")
  
-    # ---------- public getters using @property ----------
     @property
     def account_number(self):
         return self.__acct_no
@@ -31,13 +28,10 @@ class BankAccount:
     def balance(self):
         return self.__balance
  
-    # ---------- display ----------
     def display(self):
         print(f"Account Number: {self.account_number}")
         print(f"Balance: {self.balance:,.2f}")
  
- 
-# ---------- test the class ----------
 a1 = BankAccount(12345, 1000)
  
 print("Account 1")
